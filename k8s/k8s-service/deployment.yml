@@ -1,0 +1,57 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: k8s-service-deployment
+spec:
+  replicas: 1 # tells deployment to run 2 pods matching the template
+  template: # create pods using pod definition in this template
+    metadata:
+      labels:
+        app: k8s-service
+    spec:
+      volumes:
+      - name: k8s-service-volume
+        hostPath:
+          path: /c/Users/spielerl/logs
+      containers:
+      - name: k8s-service
+        image: spieler/k8s-service:latest
+        imagePullPolicy: Never
+        volumeMounts:
+        - name: k8s-service-volume
+          mountPath: /data
+        resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "1"
+        livenessProbe:
+          httpGet:
+            path: /hello
+            port: 9988
+          initialDelaySeconds: 180
+          timeoutSeconds: 5
+
+        env:
+        - name: JAVA_OPTIONS
+          valueFrom:
+            configMapKeyRef:
+              name: k8s-service-config
+              key: java.options
+        - name: CASSANDRA_ADDRESS
+          valueFrom:
+            configMapKeyRef:
+              name: k8s-service-config
+              key: cassandra.address
+        - name: RABBITMQ_ADDRESS
+          valueFrom:
+            configMapKeyRef:
+              name: k8s-service-config
+              key: rabbitmq.address
+        - name: REDIS_ADDRESS
+          valueFrom:
+            configMapKeyRef:
+              name: k8s-service-config
+              key: redis.address

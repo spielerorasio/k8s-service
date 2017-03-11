@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: k8s-service-config
+data:
+  java.options: "-Dspring.profiles.active=default"
+  rabbitmq.address: "{{RABBITMQ_ADDRESS}}"
+  cassandra.address: "{{CASSANDRA_ADDRESS}}"
+  redis.address: "{{REDIS_ADDRESS}}"
