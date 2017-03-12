@@ -1,0 +1,39 @@
+create new branch for generic
+git stash
+git checkout -b  <branch> (create a branch and go to it)
+git stash apply
+git add .
+git commit -m "Internal:<some message>"
+git push -u origin <branch>
+
+#merge master wihtout switching
+git fetch origin master
+git merge FETCH_HEAD	
+	
+
+	
+#delete branch
+git branch -D <git local branch>
+git push origin :<git remote branch>
+
+
+
+
+git cherry-pick -x 1d05917
+git cherry-pick -x 8a1c989
+git cherry-pick -x 9148737
+
+git revert --no-edit ad4e3c7 
+git revert --no-edit 2087bf140e126cfa7e992dffe63e06aaa217d9c1 -m 1
+git revert --no-edit 92230efb84084bcf0baf1305c8b57bc30dc5eae1 -m 1
+git revert --no-edit 683823621fce943aacd032fe6ba43d02f7d38d94 -m 1
+
+
+
+git clean -f -d
+git reset --hard origin/MaaS-Platform-Server-Orasio
+git reset --hard origin/MaaS-Platform-Server-Adi  - back to origin
+git reset --hard origin/master
+git reset --hard origin/release-3.5
+git reset --hard  8a95f05cb3211fc95691f085998766c179e0b167
+git reset --hard origin/docker_poc

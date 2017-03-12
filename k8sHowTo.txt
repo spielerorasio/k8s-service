@@ -1,0 +1,81 @@
+**********************************************************************
+*****************			MINIKUBE 					***************
+**********************************************************************
+
+
+
+minikube start --kubernetes-version="v1.4.0" --vm-driver="virtualbox" --docker-env HTTP_PROXY=http://<proxy>:<port> --docker-env HTTPS_PROXY=http://<proxy>:<port> NO_PROXY=127.0.0.1,localhost,192.168.99.100 --insecure-registry="<regitryHost>:<port>" --cpus=2 --memory=5120 --show-libmachine-logs --alsologtostderr
+
+minikube start
+
+minikube ip
+
+eval $(minikube docker-env --no-proxy)
+
+kubectl config current-context
+ 
+kubectl config get-contexts
+
+kubectl config use-context minikube
+
+
+
+DASHBOARD
+minikube dashboard    OR  kubectl proxy --port=9000 and access from http://localhost:9000/ui
+
+minikube stop
+minikube delete
+
+**********************************************************************
+
+
+
+
+
+
+kubectl get pods 
+
+#switch to aws contexts
+kubectl config use-context dev-k8s.srf-rnd.click
+
+
+kubectl -namespace some-namespace get pods 
+
+cd ...k8s-deploymnet-folder
+kubectl create -f  someFolder/
+kubectl delete -f  someFolder/
+
+
+kubectl create -f  someFolder1/ -f  someFolder2/  
+
+kubectl delete -R -f .
+
+
+kubectl port-forward <pod> <localhostPort>:<port>
+
+ 
+ 
+ 
+operations can be done with the following kubectl commands: 
+•	kubectl get - list resources
+•	kubectl describe - show detailed information about a resource
+•	kubectl logs - print the logs from a container in a pod
+•	kubectl exec - execute a command on a container in a pod
+
+ 
+ 
+ 
+kubectl delete pods --all
+kubectl delete configmaps --all
+kubectl delete services --all
+kubectl delete deployments --all
+kubectl delete replicationcontrollers --all
+kubectl delete daemonsets.extensions --all
+kubectl delete horizontalpodautoscalers.autoscaling --all
+ 
+ 
+ 
+  
+ 
+ 
+ 
