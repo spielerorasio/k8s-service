@@ -8,14 +8,19 @@ mvn package docker:build
 ######### using minikube    ##############
 cd  k8s
 kubectl create -f redis/
+
 kubectl create -f rabbitmq/
+
 kubectl create -f cassandra/
+
 
 docker ps and find the cassandra hash
 docker run <hash> -it --rm cassandra cqlsh cassandra
 
 CREATE KEYSPACE mykeyspace WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };
+
 USE mykeyspace; CREATE TABLE user (id text PRIMARY KEY, name text, email text, age int);
+
 CREATE INDEX user_name_index ON user (name);
 
 kubectl create -f k8-service/
@@ -27,8 +32,11 @@ docker run --name latestRedis -d -it  -p 6379:6379 redis:latest
 # you can Redis Desktop manager 192.168.99.100 6379
 
 docker run -d -it  -p 5672:5672   -p 15672:15672 --hostname latestRabbit --name latestRabbit \
+
  -e RABBITMQ_ERLANG_COOKIE='ABCDABCD'  -e RABBITMQ_DEFAULT_USER=orasio \
+ 
  -e RABBITMQ_DEFAULT_PASS=password  rabbitmq:3-management
+ 
 # you can connect http://192.168.99.100:15672/    orasio/password
 
 
@@ -39,8 +47,11 @@ docker run --link latestCassandra:cassandra  -it    --rm cassandra cqlsh cassand
 
 
 CREATE KEYSPACE mykeyspace WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };
+
 USE mykeyspace;
+
 CREATE TABLE user (id text PRIMARY KEY, name text, email text, age int);
+
 CREATE INDEX user_name_index ON user (name);
 
 
@@ -48,9 +59,12 @@ docker run -p 9988:9988 -e "REDIS_ADDRESS=192.168.99.100" -e "RABBITMQ_ADDRESS=1
 
 
 
-Open rest tool
+Open rest tool and execute 
+
 POST http://localhost:9988/user
+
 Accept:application/json
+
 Content-Type:application/json
 {
    "id":"1",
@@ -60,8 +74,11 @@ Content-Type:application/json
 }
 
 now test the data
+
 GET http://localhost:9988/user/email/spieler.orasio@gmail.com
+
 GET http://localhost:9988/user/name/spieler
+
 GET http://localhost:9988/user/id/1
 
 
@@ -77,6 +94,7 @@ docker run   -e "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,address=5005,serve
 
 ### actuator is on 
 try http://192.168.99.100:9988/docs/
+
 for example http://192.168.99.100:9988/actuator
 
 
