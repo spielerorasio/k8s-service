@@ -7,6 +7,7 @@ mvn package docker:build
 
 ######### using minikube    ##############
 cd  k8s
+
 kubectl create -f redis/
 
 kubectl create -f rabbitmq/
