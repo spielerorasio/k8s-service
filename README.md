@@ -132,10 +132,11 @@ for example http://192.168.99.100:9988/actuator
 
 # take down the system 
 
-kubectl delete configmaps --all
+kubectl delete -f redis/
 
-kubectl delete services --all
+kubectl delete -f cassandra/
 
-kubectl delete deployments --all
+kubectl delete -f rabbitmq/
 
+kubectl delete -f k8s-service/
 
