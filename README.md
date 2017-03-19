@@ -45,6 +45,12 @@ exit
 
 kubectl create -f k8s-service/
 
+find the port and access the k8s-service
+
+kubectl describe service k8s-service
+
+now try http://192.168.99.100:31804/user/email/spieler.orasio@gmail.com
+
 # Using DOCKER 
  
 
