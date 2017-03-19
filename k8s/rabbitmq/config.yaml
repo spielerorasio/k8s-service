@@ -3,6 +3,6 @@ kind: ConfigMap
 metadata:
   name: rabbitmq-config
 data:
-  rabbitmq.erlang.cookie: "{{ERLANG_COOKIE}}"
+  rabbitmq.erlang.cookie: "SOME_ERLANG_COOKIE"
   rabbitmq.default.user: "orasio"
   rabbitmq.default.pass: "password"
