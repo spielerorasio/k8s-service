@@ -4,6 +4,9 @@ metadata:
   name: k8s-service-config
 data:
   java.options: "-Dspring.profiles.active=default"
-  rabbitmq.address: "{{RABBITMQ_ADDRESS}}"
-  cassandra.address: "{{CASSANDRA_ADDRESS}}"
-  redis.address: "{{REDIS_ADDRESS}}"
+  rabbitmq.address: "rabbitmq-service"
+  rabbitmq.port: "5672"
+  cassandra.address: "cassandra-service"
+  cassandra.port: "9042"
+  redis.address: "redis-service"
+  redis.port: "6379"
