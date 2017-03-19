@@ -5,7 +5,21 @@ mvn package docker:build
 
 
 
+First make sure to pull the following images 
+
+docker pull redis:latest
+
+docker pull rabbitmq:3-management
+
+docker pull cassandra:latest
+
+
+######### ######### ######### #########
+
 ######### using minikube    ##############
+
+######### ######### ######### #########
+
 cd  k8s
 
 kubectl create -f redis/
@@ -16,7 +30,12 @@ kubectl create -f cassandra/
 
 
 docker ps and find the cassandra hash
-docker run <hash> -it --rm cassandra cqlsh cassandra
+
+docker run --link <hash>:cassandra -it --rm cassandra cqlsh cassandra
+
+for example : docker run --link b2bfb42c9de2:cassandra  -it    --rm cassandra cqlsh cassandra
+
+
 
 CREATE KEYSPACE mykeyspace WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };
 
@@ -24,12 +43,18 @@ USE mykeyspace; CREATE TABLE user (id text PRIMARY KEY, name text, email text, a
 
 CREATE INDEX user_name_index ON user (name);
 
-kubectl create -f k8-service/
+exit 
+
+kubectl create -f k8s-service/
 
 ######### ######### ######### #########
+
 ######### using DOCKER    ##############
 
+######### ######### ######### #########
+
 docker run --name latestRedis -d -it  -p 6379:6379 redis:latest
+
 # you can Redis Desktop manager 192.168.99.100 6379
 
 docker run -d -it  -p 5672:5672   -p 15672:15672 --hostname latestRabbit --name latestRabbit \
@@ -44,6 +69,7 @@ docker run -d -it  -p 5672:5672   -p 15672:15672 --hostname latestRabbit --name 
 docker run --name latestCassandra -d -it -p 9042:9042 cassandra:latest
 
 #run cql commands
+
 docker run --link latestCassandra:cassandra  -it    --rm cassandra cqlsh cassandra
 
 
@@ -89,6 +115,7 @@ GET http://localhost:9988/user/id/1
 
    
 ## Debugging the application in a Docker container
+
 docker run   -e "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n"  -e "REDIS_ADDRESS=192.168.99.100" -e "RABBITMQ_ADDRESS=192.168.99.100" -e "CASSANDRA_ADDRESS=192.168.99.100" -p 9988:9988 -p 5005:5005  -d -it spieler/k8s-service
 
 
