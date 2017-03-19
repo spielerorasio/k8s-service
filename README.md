@@ -129,3 +129,13 @@ for example http://192.168.99.100:9988/actuator
 
 
 
+
+# take down the system 
+
+kubectl delete configmaps --all
+
+kubectl delete services --all
+
+kubectl delete deployments --all
+
+
