@@ -14,11 +14,9 @@ docker pull rabbitmq:3-management
 docker pull cassandra:latest
 
 
-######### ######### ######### #########
 
-######### using minikube    ##############
+# Using minikube 
 
-######### ######### ######### #########
 
 cd  k8s
 
@@ -47,15 +45,12 @@ exit
 
 kubectl create -f k8s-service/
 
-######### ######### ######### #########
-
-######### using DOCKER    ##############
-
-######### ######### ######### #########
+# Using DOCKER 
+ 
 
 docker run --name latestRedis -d -it  -p 6379:6379 redis:latest
 
-# you can Redis Desktop manager 192.168.99.100 6379
+# you can use Redis Desktop manager 192.168.99.100 6379
 
 docker run -d -it  -p 5672:5672   -p 15672:15672 --hostname latestRabbit --name latestRabbit \
 
@@ -63,12 +58,13 @@ docker run -d -it  -p 5672:5672   -p 15672:15672 --hostname latestRabbit --name 
  
  -e RABBITMQ_DEFAULT_PASS=password  rabbitmq:3-management
  
-# you can connect http://192.168.99.100:15672/    orasio/password
+
+you can connect http://192.168.99.100:15672/    orasio/password
 
 
 docker run --name latestCassandra -d -it -p 9042:9042 cassandra:latest
 
-#run cql commands
+run cql commands
 
 docker run --link latestCassandra:cassandra  -it    --rm cassandra cqlsh cassandra
 
