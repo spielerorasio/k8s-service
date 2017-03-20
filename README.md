@@ -1,11 +1,15 @@
 # k8s-service
-k8s spring boot cassandra redis rabbitmq skeleton 
+This project is a demo project for k8s spring boot using cassandra, redis and rabbitmq skeleton. 
 
-mvn package docker:build
+to use this example 
+
+git clone ....k8s-service.git
+
+mvn package docker:build      --> builds a docker container
 
 
 
-First make sure to pull the following images 
+# Make sure to pull the following images 
 
 docker pull redis:latest
 
@@ -29,11 +33,12 @@ kubectl create -f cassandra/
 
 docker ps and find the cassandra hash
 
-docker run --link <hash>:cassandra -it --rm cassandra cqlsh cassandra
+docker run --link <cassandraHash>:cassandra -it --rm cassandra cqlsh cassandra
 
 for example : docker run --link b2bfb42c9de2:cassandra  -it    --rm cassandra cqlsh cassandra
 
 
+run the following cql commands:
 
 CREATE KEYSPACE mykeyspace WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };
 
@@ -45,16 +50,35 @@ CREATE INDEX user_name_index ON user (name);
 
 exit 
 
+
 kubectl create -f k8s-service/
 
-now try http://192.168.99.100:31804/user/email/spieler.orasio@gmail.com
+
+
+POST http://192.168.99.100:31804/user
+
+Accept:application/json
+
+Content-Type:application/json
+
+Body 
+
+{
+   "id":"1",
+   "name":"spieler",
+   "email":"spieler.orasio@gmail.com",
+   "age":33
+}
+
+now try http://192.168.99.100:31804/user/id/1
+
 
 # Using DOCKER 
  
 
 docker run --name latestRedis -d -it  -p 6379:6379 redis:latest
 
-# you can use Redis Desktop manager 192.168.99.100 6379
+(to check connectivity you can use Redis Desktop manager 192.168.99.100 6379)
 
 docker run -d -it  -p 5672:5672   -p 15672:15672 --hostname latestRabbit --name latestRabbit \
 
@@ -63,7 +87,7 @@ docker run -d -it  -p 5672:5672   -p 15672:15672 --hostname latestRabbit --name 
  -e RABBITMQ_DEFAULT_PASS=password  rabbitmq:3-management
  
 
-you can connect http://192.168.99.100:15672/    orasio/password
+(to check connectivity you can connect http://192.168.99.100:15672/    orasio/password)
 
 
 docker run --name latestCassandra -d -it -p 9042:9042 cassandra:latest
@@ -93,6 +117,8 @@ POST http://localhost:9988/user
 Accept:application/json
 
 Content-Type:application/json
+
+Body
 {
    "id":"1",
    "name":"spieler",
@@ -114,18 +140,19 @@ GET http://localhost:9988/user/id/1
 
 
    
-## Debugging the application in a Docker container
+# Debugging the application in a Docker container
 
 docker run   -e "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n"  -e "REDIS_ADDRESS=192.168.99.100" -e "RABBITMQ_ADDRESS=192.168.99.100" -e "CASSANDRA_ADDRESS=192.168.99.100" -p 9988:9988 -p 5005:5005  -d -it spieler/k8s-service
 
 
 
-### actuator is on 
+# Spring Boot Actuator is on 
 try http://192.168.99.100:9988/docs/
 
 for example http://192.168.99.100:9988/actuator
 
 
+# Spring Cloud Config is on too (Later an example will be added)
 
 
 # take down the system 
