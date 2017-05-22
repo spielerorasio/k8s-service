@@ -74,8 +74,20 @@ kubectl delete daemonsets.extensions --all
 kubectl delete horizontalpodautoscalers.autoscaling --all
  
  
+copy files 
+
+ kubectl cp /tmp/foo <some-namespace>/<some-pod>:/tmp/bar
+ kubectl -nmc  cp nmc/console-deployment-2113084071-8xnzw:/usr/local/hpmc/log ./orasio/
+ 
  
   
+ K8S with ELK kibana and FLUNTD
  
+ the docker image for fluentd is customized by google. every pod in minikube will have a docker container (daemonset) of that fluentd image. and the fluentd container picks everything output to the container consoles in that pod. 
+ 
+ http://mydtbld0020.hpeswlab.net:7990/projects/AAM/repos/devops-docker-k8s/browse/dev/k8s/service/elk/elk.yaml 
+ 
+ search by tenant and correlationid
+ log:"correlationid" AND kubernetes.container_name:"console-container" 
  
  
